@@ -1,0 +1,31 @@
+services:
+  api:
+    build: .
+    container_name: intellidesk-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./reports:/app/reports
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+
+  dashboard:
+    build: .
+    container_name: intellidesk-dashboard
+    command: streamlit run dashboard/app.py --server.address 0.0.0.0 --server.port 8501
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./reports:/app/reports
+    environment:
+      # Dashboard reaches API via docker service DNS
+      - INTELLIDESK_API_URL=http://api:8000
+      - PYTHONUNBUFFERED=1
+    depends_on:
+      - api
+    restart: unless-stopped

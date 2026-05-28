@@ -1,0 +1,81 @@
+# Data and models are gitignored, so each job regenerates them.
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements-dev.txt
+          python -m spacy download en_core_web_sm
+
+      - name: Generate data and train models
+        run: |
+          python -m src.generate_data --n_tickets 2000 --out data/tickets.csv
+          python -m src.generate_kb
+          python -m src.classifier --data data/tickets.csv --no-mlflow
+          python -m src.retriever
+
+      - name: Run tests
+        run: python run_tests.py
+
+  validate:
+    runs-on: ubuntu-latest
+    needs: tests
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements-dev.txt
+          python -m spacy download en_core_web_sm
+
+      - name: Generate data and train models
+        run: |
+          python -m src.generate_data --n_tickets 2000 --out data/tickets.csv
+          python -m src.generate_kb
+          python -m src.classifier --data data/tickets.csv --no-mlflow
+          python -m src.retriever
+
+      - name: Run validation suite
+        run: python run_validate.py
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install ruff
+        run: pip install ruff
+
+      - name: Run ruff
+        run: ruff check src/ tests/ dashboard/ monitoring/

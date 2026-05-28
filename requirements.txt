@@ -1,0 +1,36 @@
+# Core ML
+pandas>=2.2
+numpy>=1.26
+scikit-learn>=1.5
+xgboost>=2.1
+joblib>=1.4
+
+# NLP
+nltk>=3.9
+spacy>=3.7
+sentence-transformers>=3.0
+transformers>=4.44
+torch>=2.4
+
+# Visualization
+matplotlib>=3.9
+seaborn>=0.13
+plotly>=5.20
+
+# Vector search
+faiss-cpu>=1.8
+
+# MLOps
+mlflow>=2.16
+evidently>=0.4.30,<0.5
+
+# Serving and UI
+fastapi>=0.115
+uvicorn[standard]>=0.30
+streamlit>=1.38
+requests>=2.32
+pydantic>=2.8
+
+# Utilities
+python-dotenv>=1.0
+loguru>=0.7

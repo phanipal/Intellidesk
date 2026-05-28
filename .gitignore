@@ -1,0 +1,85 @@
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+build/
+dist/
+
+# Test and coverage artifacts
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+nosetests.xml
+coverage.xml
+*.cover
+
+# Generated data (regenerated via make.ps1 data or launcher.py option 2)
+data/tickets.csv
+data/tickets_smoke.csv
+data/knowledge_base.json
+data/processed/
+data/eval/
+
+# Trained models and indexes (regenerated via make.ps1 train + build-index)
+models/
+mlruns/
+mlflow.db
+*.joblib
+*.pkl
+*.faiss
+
+# Sentence-transformer cache (large, downloads on first use)
+.cache/
+sentence_transformers/
+
+# Generated reports
+reports/
+*.html
+!docs/**/*.html
+
+# Scratch directory
+tmp/
+
+# Notebook execution artifacts (keep .py source, generated .ipynb is local)
+.ipynb_checkpoints/
+notebooks/*.ipynb
+
+# Secrets and environment files
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets.toml
+.streamlit/secrets.toml
+
+# Editor and OS files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+logs/
+
+# Docker
+.docker/
+
+# Lock files for venv-local installs
+pip-log.txt
+pip-delete-this-directory.txt
